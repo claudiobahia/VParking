@@ -42,8 +42,6 @@ public class ServletAdicionarPlaca extends HttpServlet {
 
         Random r = new Random();
 
-        int id = r.nextInt(100000);
-
         int vaga = r.nextInt(20);
 
         Date data = new Date();
@@ -67,11 +65,10 @@ public class ServletAdicionarPlaca extends HttpServlet {
             try {
                 Connection sqlConnection = ConnectionPool.getConnection();
                 PreparedStatement preparedStatement = sqlConnection.prepareStatement(
-                        "insert into estacionamento values(?,?,?,?)");
-                preparedStatement.setInt(1, id);
-                preparedStatement.setString(2, placa);
-                preparedStatement.setInt(3, vaga);
-                preparedStatement.setString(4, fmt.format(data));
+                        "insert into estacionamento (placa,vaga,data) values(?,?,?)");
+                preparedStatement.setString(1, placa);
+                preparedStatement.setInt(2, vaga);
+                preparedStatement.setString(3, fmt.format(data));
                 preparedStatement.executeUpdate();
                 request.setAttribute("message", "Dado cadastrado!");
                 request.getRequestDispatcher("index.htm").forward(request, response);
