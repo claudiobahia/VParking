@@ -29,14 +29,14 @@
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix=""
-          p:suffix=".jsp" />
+          p:suffix="" />
 
     <!--
     The index controller.
     -->
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />
+          p:viewName="ServletPegarBanco" />
     
 
 </beans>

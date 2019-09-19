@@ -5,14 +5,14 @@
  */
 package controller;
 
+import model.Veiculo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import model.ConnectionPool;
  *
  * @author claud
  */
-public class ServletAdicionarPlaca extends HttpServlet {
+public class ServletPegarBanco extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,56 +37,21 @@ public class ServletAdicionarPlaca extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-//        Pegando os dados para salvar
-        
-        String placa = request.getParameter("edtPlacaAdicionar");
-
-        Random r = new Random();
-
-        int vaga = r.nextInt(20);
-
-        Date data = new Date();
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
-//        Terminando o preparamento dos dados
-
-        response.setContentType("text/html;charset=UTF-8");
-        if (placa.isEmpty()) {
-//            Caso placa venha com erro, amostra erro e opção voltar index
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet NewServlet</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Campo da placa se encontra vazia!</h1><br><a href=ServletPegarBanco>Voltar</a>");
-                out.println("</body>");
-                out.println("</html>");
+        try {
+            Connection sqlConnection = ConnectionPool.getConnection();
+            PreparedStatement preparedStatement
+                    = sqlConnection.prepareStatement("select * from estacionamento order by id desc");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Veiculo> listaVeiculo = new ArrayList<>();
+            while (resultSet.next()) {
+                Veiculo v = new Veiculo(resultSet.getString("id"), resultSet.getString("placa"),
+                        resultSet.getString("vaga"), resultSet.getString("data"));
+                listaVeiculo.add(v);
             }
-        } else {
-//            Caso não tenha erro na placa, salve
-            try {
-//                Conectando o banco
-                Connection sqlConnection = ConnectionPool.getConnection();
-//                Preparando os inserts para o banco, ID já automático
-                PreparedStatement preparedStatement = sqlConnection.prepareStatement(
-                        "insert into estacionamento (placa,vaga,data) values(?,?,?)");
-//                Jogando para o DB
-                preparedStatement.setString(1, placa);
-                preparedStatement.setInt(2, vaga);
-                preparedStatement.setString(3, fmt.format(data));
-                preparedStatement.executeUpdate();
-//                Mensagem de teste
-//                TODO todo Todo fazer essa menssagem em algum lugar pra ficar legal
-                request.setAttribute("message", "Dado cadastrado!");
-                request.getRequestDispatcher("index.htm").forward(request, response);
-            } catch (SQLException e) {
-                System.out.println(e);
-                request.setAttribute("message", "Ocorreu um erro com o Banco de Dados");
-                request.getRequestDispatcher("index.htm").forward(request, response);
-            }
+            request.setAttribute("listaVeiculo",listaVeiculo);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+
+        } catch (SQLException e) {
         }
     }
 

@@ -16,6 +16,10 @@
         <servlet-name>ServletAdicionarPlaca</servlet-name>
         <servlet-class>controller.ServletAdicionarPlaca</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletPegarBanco</servlet-name>
+        <servlet-class>controller.ServletPegarBanco</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -24,12 +28,16 @@
         <servlet-name>ServletAdicionarPlaca</servlet-name>
         <url-pattern>/ServletAdicionarPlaca</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletPegarBanco</servlet-name>
+        <url-pattern>/ServletPegarBanco</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
+        <welcome-file>ServletPegarBanco</welcome-file>
     </welcome-file-list>
 </web-app>

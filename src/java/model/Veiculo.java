@@ -1,3 +1,5 @@
+package model;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,13 +15,13 @@ public class Veiculo {
     private String id;
     private String placa;
     private String vaga;
-    private String entrada;
+    private String dataEntrada;
 
-    public Veiculo(String id, String placa, String vaga, String entrada) {
+    public Veiculo(String id, String placa, String vaga, String dataEntrada) {
         this.id = id;
         this.placa = placa;
         this.vaga = vaga;
-        this.entrada = entrada;
+        this.dataEntrada = dataEntrada;
     }
 
     public String getPlaca() {
@@ -39,11 +41,11 @@ public class Veiculo {
     }
 
     public String getEntrada() {
-        return entrada;
+        return dataEntrada;
     }
 
     public void setEntrada(String entrada) {
-        this.entrada = entrada;
+        this.dataEntrada = entrada;
     }
 
     public String getId() {

@@ -35,7 +35,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.htm">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="ServletPegarBanco">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
@@ -144,6 +144,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <%--<c:forEach items="${listaVeiculo}" var=""> </c:forEach>--%>
                                                 <th>Placa do Veículo ${message}</th>
                                                 <th>Número da Vaga</th>
                                                 <th>Data/Hora da Entrada</th>
