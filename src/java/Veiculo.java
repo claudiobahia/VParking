@@ -10,11 +10,13 @@
  */
 public class Veiculo {
     
+    private String id;
     private String placa;
     private String vaga;
     private String entrada;
 
-    public Veiculo(String placa, String vaga, String entrada) {
+    public Veiculo(String id, String placa, String vaga, String entrada) {
+        this.id = id;
         this.placa = placa;
         this.vaga = vaga;
         this.entrada = entrada;
@@ -43,6 +45,15 @@ public class Veiculo {
     public void setEntrada(String entrada) {
         this.entrada = entrada;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     
     
     

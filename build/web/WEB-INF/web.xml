@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>ServletAdicionarPlaca</servlet-name>
-        <servlet-class>Servlets.ServletAdicionarPlaca</servlet-class>
+        <servlet-class>controller.ServletAdicionarPlaca</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>

@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,11 +46,11 @@
                 <hr class="sidebar-divider my-0">
 
                 <!-- Nav Item - Dashboard -->
-<!--                <li class="nav-item active">
-                    <a class="nav-link" href="index.jsp">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Painel</span></a>
-                </li>-->
+                <!--                <li class="nav-item active">
+                                    <a class="nav-link" href="index.jsp">
+                                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                                        <span>Painel</span></a>
+                                </li>-->
 
                 <li class="nav-item active">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#modalAdicionarPlaca">
@@ -70,9 +72,11 @@
                                 <div align="center" class="modal-body">
                                     <h2>Adicione um novo veículo</h2>
                                     <h3>Placa do veículo</h3>
-                                    <input type="text" id="edtPlacaAdicionar"/>
-                                    <br><br>
-                                    <input type="submit" id="btnEnviarPlacaAdicionar"/>
+                                    <form action="ServletAdicionarPlaca" method="POST">
+                                        <input type="text" name="edtPlacaAdicionar"/>
+                                        <br><br>
+                                        <input type="submit" name="btnEnviarPlacaAdicionar"/>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -89,9 +93,7 @@
                                     <h3>Placa do veículo</h3>
                                     <input type="text" name="edtPlacaFinalizar"/>
                                     <br><br>
-                                    <form action="ServletAdicionarPlaca" method="POST">
-                                        <input type="submit" name="btnEnviarPlacaFinalizar"/>
-                                    </form>
+                                    <input type="submit" name="btnEnviarPlacaFinalizar"/>
                                 </div>
                             </div>
                         </div>
@@ -142,9 +144,9 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Placa do Veículo</th>
+                                                <th>Placa do Veículo ${message}</th>
                                                 <th>Número da Vaga</th>
-                                                <th>Data/Hora Entrada</th>
+                                                <th>Data/Hora da Entrada</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -158,7 +160,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <!-- /.container-fluid -->
 
@@ -185,25 +186,6 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>

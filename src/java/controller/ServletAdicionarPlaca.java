@@ -3,14 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.ConnectionPool;
 
 /**
  *
@@ -30,17 +38,48 @@ public class ServletAdicionarPlaca extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletAdicionarPlaca</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletAdicionarPlaca at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String placa = request.getParameter("edtPlacaAdicionar");
+
+        Random r = new Random();
+
+        int id = r.nextInt(100000);
+
+        int vaga = r.nextInt(20);
+
+        Date data = new Date();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        response.setContentType("text/html;charset=UTF-8");
+        if (placa.isEmpty()) {
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet NewServlet</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Campo da placa se encontra vazia!</h1><br><a href=/VParking/index.htm>Voltar</a>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } else {
+            try {
+                Connection sqlConnection = ConnectionPool.getConnection();
+                PreparedStatement preparedStatement = sqlConnection.prepareStatement(
+                        "insert into estacionamento values(?,?,?,?)");
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, placa);
+                preparedStatement.setInt(3, vaga);
+                preparedStatement.setString(4, fmt.format(data));
+                preparedStatement.executeUpdate();
+                request.setAttribute("message", "Dado cadastrado!");
+                request.getRequestDispatcher("index.htm").forward(request, response);
+            } catch (SQLException e) {
+                System.out.println(e);
+                request.setAttribute("message", "Ocorreu um erro com o Banco de Dados");
+                request.getRequestDispatcher("index.htm").forward(request, response);
+            }
         }
     }
 
