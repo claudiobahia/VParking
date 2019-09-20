@@ -61,7 +61,7 @@ public class ServletAdicionarPlaca extends HttpServlet {
                 out.println("<title>Servlet NewServlet</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Campo da placa se encontra vazia!</h1><br><a href=ServletPegarBanco>Voltar</a>");
+                out.println("<h1>Campo da placa se encontra vazia!</h1><br><a href=redirect.jsp>Voltar</a>");
                 out.println("</body>");
                 out.println("</html>");
             }
@@ -81,11 +81,11 @@ public class ServletAdicionarPlaca extends HttpServlet {
 //                Mensagem de teste
 //                TODO todo Todo fazer essa menssagem em algum lugar pra ficar legal
                 request.setAttribute("message", "Dado cadastrado!");
-                request.getRequestDispatcher("index.htm").forward(request, response);
+                request.getRequestDispatcher("redirect.jsp").forward(request, response);
             } catch (SQLException e) {
                 System.out.println(e);
                 request.setAttribute("message", "Ocorreu um erro com o Banco de Dados");
-                request.getRequestDispatcher("index.htm").forward(request, response);
+                request.getRequestDispatcher("redirect.jsp").forward(request, response);
             }
         }
     }
