@@ -15,13 +15,13 @@ public class Veiculo {
     private String id;
     private String placa;
     private String vaga;
-    private String dataEntrada;
+    private String data;
 
-    public Veiculo(String id, String placa, String vaga, String dataEntrada) {
+    public Veiculo(String id, String placa, String vaga, String data) {
         this.id = id;
         this.placa = placa;
         this.vaga = vaga;
-        this.dataEntrada = dataEntrada;
+        this.data = data;
     }
 
     public String getPlaca() {
@@ -40,12 +40,12 @@ public class Veiculo {
         this.vaga = vaga;
     }
 
-    public String getEntrada() {
-        return dataEntrada;
+    public String getData() {
+        return data;
     }
 
-    public void setEntrada(String entrada) {
-        this.dataEntrada = entrada;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getId() {

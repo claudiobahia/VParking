@@ -35,7 +35,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="ServletPegarBanco">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="redirect.jsp">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
@@ -145,17 +145,19 @@
                                         <thead>
                                             <tr>
                                                 <%--<c:forEach items="${listaVeiculo}" var=""> </c:forEach>--%>
-                                                <th>Placa do Veículo ${message}</th>
+                                                <th>Placa do Veículo</th>
                                                 <th>Número da Vaga</th>
                                                 <th>Data/Hora da Entrada</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <c:forEach items="${listaVeiculo}" var="veiculo">
                                             <tr>
-                                                <td>XXX-0000</td>
-                                                <td>00</td>
-                                                <td>00/00/0000 - 12:00PM</td>
+                                                <td>${veiculo.placa}</td>
+                                                <td>${veiculo.vaga}</td>
+                                                <td>${veiculo.data}</td>
                                             </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
