@@ -117,6 +117,8 @@ public class ServletAdicionarPlaca extends HttpServlet {
                     preparedStatement.executeUpdate();
 //                Mensagem de teste
 //                TODO todo Todo fazer essa menssagem em algum lugar pra ficar legal
+                    preparedStatement.close();
+                    resultSet.close();
                     request.setAttribute("message", "Dado cadastrado!");
                     request.getRequestDispatcher("redirect.jsp").forward(request, response);
                 }

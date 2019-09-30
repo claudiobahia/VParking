@@ -5,14 +5,12 @@
  */
 package controller;
 
-import model.Veiculo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +21,7 @@ import model.ConnectionPool;
  *
  * @author claud
  */
-public class ServletPegarBanco extends HttpServlet {
+public class ServletPreUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +36,20 @@ public class ServletPegarBanco extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            
             String placa = request.getParameter("placa");
+
             Connection sqlConnection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement
-                    = sqlConnection.prepareStatement("select * from estacionamento order by id desc");
+                    = sqlConnection.prepareStatement("select * from estacionamento where placa=?");
+            preparedStatement.setString(1, placa);
             ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<Veiculo> listaVeiculo = new ArrayList<>();
-            while (resultSet.next()) {
-                Veiculo v = new Veiculo(resultSet.getString("id"), resultSet.getString("placa"),
-                        resultSet.getString("vaga"), resultSet.getString("data"));
-                listaVeiculo.add(v);
-            }
-            request.setAttribute("listaVeiculo", listaVeiculo);
-            if(placa != null){
+            if (resultSet.next()) {
                 request.setAttribute("placaToUpdate", placa);
             }
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("updateplaca.jsp").forward(request, response);
 
         } catch (SQLException e) {
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet NewServlet</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println(e + "<h1>Erro SQL!</h1><br><a href=redirect.jsp>Voltar</a>");
-                out.println("</body>");
-                out.println("</html>");
-            }
+            e.printStackTrace();
         }
     }
 

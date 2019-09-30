@@ -21,7 +21,8 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.htm">indexController</prop>
+                <prop key="index.jsp">indexController</prop>
+                <prop key="index.jsp">updateplacaController</prop>
             </props>
         </property>
     </bean>
@@ -37,6 +38,10 @@
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
+    
+    <bean name="updateplacaController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="updateprofessor" />
     
 
 </beans>

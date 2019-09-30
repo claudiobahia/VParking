@@ -64,6 +64,7 @@
                         <span>Finalizar</span></a>
                 </li>
 
+
                 <!--Adicionar-->
                 <div class="modal" id="modalAdicionarPlaca">
                     <div class="modal-dialog">
@@ -91,9 +92,11 @@
                                 <div align="center" class="modal-body">
                                     <h2>Finalize o serviço</h2>
                                     <h3>Placa do veículo</h3>
-                                    <input type="text" name="edtPlacaFinalizar"/>
-                                    <br><br>
-                                    <input type="submit" name="btnEnviarPlacaFinalizar"/>
+                                    <form action="ServletFinalizarPlaca" method="POST">
+                                        <input type="text" name="edtPlacaFinalizar"/>
+                                        <br><br>
+                                        <input type="submit" name="btnEnviarPlacaFinalizar"/>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -144,19 +147,25 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <%--<c:forEach items="${listaVeiculo}" var=""> </c:forEach>--%>
                                                 <th>Placa do Veículo</th>
                                                 <th>Número da Vaga</th>
                                                 <th>Data/Hora da Entrada</th>
+                                                <th> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach items="${listaVeiculo}" var="veiculo">
-                                            <tr>
-                                                <td>${veiculo.placa}</td>
-                                                <td>${veiculo.vaga}</td>
-                                                <td>${veiculo.data}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>${veiculo.placa}</td>
+                                                    <td>${veiculo.vaga}</td>
+                                                    <td>${veiculo.data}</td>
+                                                    <td>
+                                                        <form method="post" action="ServletPreUpdate">
+                                                            <input name="placa" value="${veiculo.placa}" hidden="true"/>
+                                                            <input type="submit" value="Editar"/>
+                                                        </form>
+                                                    </td>
+                                                </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>

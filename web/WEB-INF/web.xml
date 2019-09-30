@@ -20,6 +20,18 @@
         <servlet-name>ServletPegarBanco</servlet-name>
         <servlet-class>controller.ServletPegarBanco</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletFinalizarPlaca</servlet-name>
+        <servlet-class>controller.ServletFinalizarPlaca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletUpadatePlaca</servlet-name>
+        <servlet-class>controller.ServletUpadatePlaca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletPreUpdate</servlet-name>
+        <servlet-class>controller.ServletPreUpdate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -31,6 +43,18 @@
     <servlet-mapping>
         <servlet-name>ServletPegarBanco</servlet-name>
         <url-pattern>/ServletPegarBanco</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletFinalizarPlaca</servlet-name>
+        <url-pattern>/ServletFinalizarPlaca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletUpadatePlaca</servlet-name>
+        <url-pattern>/ServletUpadatePlaca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletPreUpdate</servlet-name>
+        <url-pattern>/ServletPreUpdate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

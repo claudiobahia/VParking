@@ -5,25 +5,27 @@
  */
 package controller;
 
-import model.Veiculo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import static java.sql.ResultSet.CONCUR_UPDATABLE;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.ConnectionPool;
+import model.Veiculo;
 
 /**
  *
  * @author claud
  */
-public class ServletPegarBanco extends HttpServlet {
+public class ServletFinalizarPlaca extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,27 +38,9 @@ public class ServletPegarBanco extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String placa = request.getParameter("edtPlacaFinalizar");
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            
-            String placa = request.getParameter("placa");
-            Connection sqlConnection = ConnectionPool.getConnection();
-            PreparedStatement preparedStatement
-                    = sqlConnection.prepareStatement("select * from estacionamento order by id desc");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<Veiculo> listaVeiculo = new ArrayList<>();
-            while (resultSet.next()) {
-                Veiculo v = new Veiculo(resultSet.getString("id"), resultSet.getString("placa"),
-                        resultSet.getString("vaga"), resultSet.getString("data"));
-                listaVeiculo.add(v);
-            }
-            request.setAttribute("listaVeiculo", listaVeiculo);
-            if(placa != null){
-                request.setAttribute("placaToUpdate", placa);
-            }
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-
-        } catch (SQLException e) {
+        if (placa.isEmpty()) {
             try (PrintWriter out = response.getWriter()) {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
@@ -64,9 +48,38 @@ public class ServletPegarBanco extends HttpServlet {
                 out.println("<title>Servlet NewServlet</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println(e + "<h1>Erro SQL!</h1><br><a href=redirect.jsp>Voltar</a>");
+                out.println("<h1>Campo da placa se encontra vazia!</h1><br><a href=redirect.jsp>Voltar</a>");
                 out.println("</body>");
                 out.println("</html>");
+            }
+        } else {
+            try {
+                Connection sqlConnection = ConnectionPool.getConnection();
+                Statement statement = sqlConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery("select * from estacionamento");
+                while (resultSet.next()) {
+                    String sqlPlaca = resultSet.getString("placa");
+                    if (sqlPlaca.equals(placa)) {
+                        resultSet.deleteRow();
+                        break;
+                    }
+                }
+                resultSet.close();
+                request.setAttribute("message", "Dado finalizado!");
+                request.getRequestDispatcher("redirect.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet NewServlet</title>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println(e + "<h1>Erro SQL!</h1><br><a href=redirect.jsp>Voltar</a>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
             }
         }
     }
@@ -109,5 +122,4 @@ public class ServletPegarBanco extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
